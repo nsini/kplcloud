@@ -1,4 +1,4 @@
-module github.com/yijizhichang/kplcloud
+module github.com/nsini/kplcloud
 
 go 1.12
 

@@ -5,7 +5,7 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/yijizhichang/kplcloud/src/config"
+	"github.com/nsini/kplcloud/src/config"
 	"time"
 )
 

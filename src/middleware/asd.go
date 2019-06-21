@@ -9,7 +9,7 @@ import (
 	"github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/kit/log"
 	kithttp "github.com/go-kit/kit/transport/http"
-	kpljwt "github.com/yijizhichang/kplcloud/src/jwt"
+	kpljwt "github.com/nsini/kplcloud/src/jwt"
 	"strings"
 )
 

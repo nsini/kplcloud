@@ -9,8 +9,8 @@ import (
 	kitlog "github.com/go-kit/kit/log"
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
-	kpljwt "github.com/yijizhichang/kplcloud/src/jwt"
-	"github.com/yijizhichang/kplcloud/src/middleware"
+	kpljwt "github.com/nsini/kplcloud/src/jwt"
+	"github.com/nsini/kplcloud/src/middleware"
 	"net/http"
 )
 

@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/metrics/prometheus"
+	"github.com/nsini/kplcloud/src/cmd"
+	"github.com/nsini/kplcloud/src/config"
+	"github.com/nsini/kplcloud/src/pkg/auth"
+	"github.com/nsini/kplcloud/src/pkg/namespace"
+	"github.com/nsini/kplcloud/src/repository"
+	"github.com/nsini/kplcloud/src/repository/initialization"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/cobra"
-	"github.com/yijizhichang/kplcloud/src/cmd"
-	"github.com/yijizhichang/kplcloud/src/config"
-	"github.com/yijizhichang/kplcloud/src/pkg/auth"
-	"github.com/yijizhichang/kplcloud/src/pkg/namespace"
-	"github.com/yijizhichang/kplcloud/src/repository"
-	"github.com/yijizhichang/kplcloud/src/repository/initialization"
 	"net/http"
 	"os"
 	"os/signal"
@@ -47,7 +47,7 @@ var (
 
 [start]
 
-有关开普勒平台的相关概述，请参阅 https://github.com/yijizhichang/kplcloud
+有关开普勒平台的相关概述，请参阅 https://github.com/nsini/kplcloud
 `,
 	}
 

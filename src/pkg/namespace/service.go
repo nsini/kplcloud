@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-kit/kit/log"
+	"github.com/nsini/kplcloud/src/config"
+	"github.com/nsini/kplcloud/src/repository"
 	"github.com/pkg/errors"
-	"github.com/yijizhichang/kplcloud/src/config"
-	"github.com/yijizhichang/kplcloud/src/repository"
 )
 
 var ErrInvalidArgument = errors.New("invalid argument")

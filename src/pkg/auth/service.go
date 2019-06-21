@@ -4,9 +4,9 @@ import (
 	"context"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-kit/kit/log"
+	"github.com/nsini/kplcloud/src/config"
+	kpljwt "github.com/nsini/kplcloud/src/jwt"
 	"github.com/pkg/errors"
-	"github.com/yijizhichang/kplcloud/src/config"
-	kpljwt "github.com/yijizhichang/kplcloud/src/jwt"
 	"strconv"
 	"time"
 )
