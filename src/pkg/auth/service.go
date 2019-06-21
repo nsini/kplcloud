@@ -47,7 +47,7 @@ func (c *service) sign(username string, uid string) (string, error) {
 	if err != nil {
 		sessionTimeout = 3600
 	}
-	expAt := time.Now().Add(time.Duration(sessionTimeout)).Unix()
+	expAt := time.Now().Add(time.Duration(sessionTimeout) * time.Second).Unix()
 
 	// 创建声明
 	claims := kpljwt.ArithmeticCustomClaims{

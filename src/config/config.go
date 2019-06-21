@@ -5,9 +5,10 @@ type Config interface {
 }
 
 const (
-	ImageFilePath = "image_file_path"
-	ImageDomain   = "image_domain"
-	SessionTimeout = "session_timeout"
+	ImageFilePath       = "image_file_path"
+	ImageDomain         = "image_domain"
+	SessionTimeout      = "session_timeout"
+	K8sImagePullSecrets = "image_pull_secrets"
 )
 
 type config struct {
@@ -27,6 +28,8 @@ func (c *config) Get(key string) string {
 		return "./image/"
 	case "session_timeout":
 		return "3600"
+	case "image_pull_secrets":
+		return "regcred"
 	}
 
 	return ""

@@ -18,15 +18,19 @@ var ErrorASD = errors.New("权限验证失败！")
 func CheckAuthMiddleware(logger log.Logger) endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (response interface{}, err error) {
-
-			fmt.Println(ctx)
 			claims := ctx.Value(jwt.JWTClaimsContextKey)
+
+			//fmt.Println(ctx.Value(kithttp.ContextKeyRequestPath))
+			//fmt.Println(ctx.Value(kithttp.ContextKeyRequestProto))
 
 			fmt.Println("-------------> start... claims")
 			fmt.Println(claims)
 			fmt.Println("------------> claims end")
 
 			token := ctx.Value(kithttp.ContextKeyRequestAuthorization).(string)
+			if token == "" {
+				return nil, ErrorASD
+			}
 			token = strings.Split(token, "Bearer ")[1]
 
 			var clustom kpljwt.ArithmeticCustomClaims
@@ -41,7 +45,6 @@ func CheckAuthMiddleware(logger log.Logger) endpoint.Middleware {
 				err = ErrorASD
 				return
 			}
-			err = nil
 
 			// todo 数据库或cache验证权限？
 			fmt.Println("userId: ", claim.UserId)

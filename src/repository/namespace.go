@@ -20,6 +20,7 @@ func (n *Namespace) TableName() string {
 
 type NamespaceRepository interface {
 	Find(name string) (res *Namespace, err error)
+	Create(ns *Namespace) error
 }
 
 type namespace struct {
@@ -31,8 +32,13 @@ func NewNamespaceRepository(db *gorm.DB) NamespaceRepository {
 }
 
 func (c *namespace) Find(name string) (res *Namespace, err error) {
-	if err = c.db.First(&res, "name_en = ?", name).Error; err != nil {
+	var ns Namespace
+	if err = c.db.First(&ns, "name_en = ?", name).Error; err != nil {
 		return
 	}
-	return
+	return &ns, nil
+}
+
+func (c *namespace) Create(ns *Namespace) error {
+	return c.db.Save(ns).Error
 }

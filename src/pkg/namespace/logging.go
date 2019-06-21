@@ -3,6 +3,7 @@ package namespace
 import (
 	"context"
 	"github.com/go-kit/kit/log"
+	"github.com/nsini/kplcloud/src/repository"
 	"time"
 )
 
@@ -15,7 +16,7 @@ func NewLoggingService(logger log.Logger, s Service) Service {
 	return &loggingService{logger, s}
 }
 
-func (s *loggingService) Detail(ctx context.Context, name string) (rs map[string]interface{}, err error) {
+func (s *loggingService) Detail(ctx context.Context, name string) (resp *repository.Namespace, err error) {
 	defer func(begin time.Time) {
 		_ = s.logger.Log(
 			"method", "detail",

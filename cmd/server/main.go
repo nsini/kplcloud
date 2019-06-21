@@ -6,6 +6,7 @@ import (
 	"github.com/go-kit/kit/metrics/prometheus"
 	"github.com/nsini/kplcloud/src/cmd"
 	"github.com/nsini/kplcloud/src/config"
+	"github.com/nsini/kplcloud/src/kubernetes"
 	"github.com/nsini/kplcloud/src/pkg/auth"
 	"github.com/nsini/kplcloud/src/pkg/namespace"
 	"github.com/nsini/kplcloud/src/repository"
@@ -21,7 +22,7 @@ import (
 
 const (
 	DefaultHttpPort   = ":8080"
-	DefaultConfigPath = "./config/app.yaml"
+	DefaultConfigPath = "./app.yaml"
 	DefaultStaticPath = "./static/"
 )
 
@@ -67,7 +68,7 @@ server start -p :8080 -c ./config/app.yaml
 func init() {
 
 	rootCmd.PersistentFlags().StringVarP(&httpAddr, "http.port", "p", DefaultHttpPort, "服务启动的端口: :8080")
-	rootCmd.PersistentFlags().StringVarP(&configPath, "config.path", "c", DefaultConfigPath, "配置文件路径: ./config/app.yaml")
+	rootCmd.PersistentFlags().StringVarP(&configPath, "config.path", "c", DefaultConfigPath, "配置文件路径: ./app.yaml")
 	startCmd.PersistentFlags().StringVarP(&staticPath, "static.path", "s", DefaultStaticPath, "静态文件目录: ./static/")
 
 	cmd.AddFlags(rootCmd)
@@ -99,6 +100,13 @@ func run() {
 		}
 	}()
 
+	k8sClient, err := kubernetes.NewClient(&cf)
+	if err != nil {
+		_ = logger.Log("kubernetes", "NewClient", "err", err)
+		panic(err)
+	}
+
+	// db models
 	var (
 		namespaceRepository = repository.NewNamespaceRepository(db)
 	)
@@ -126,7 +134,7 @@ func run() {
 			}, fieldKeys), authSvc)
 
 		var namespaceSvc namespace.Service
-		namespaceSvc = namespace.NewService(logger, cf, namespaceRepository)
+		namespaceSvc = namespace.NewService(logger, cf, namespaceRepository, k8sClient)
 		namespaceSvc = namespace.NewLoggingService(logger, namespaceSvc) // 日志
 
 		httpLogger := log.With(logger, "component", "http")

@@ -6,11 +6,11 @@ import (
 	"os"
 )
 
-var JwtKey = os.Getenv("JWT_KEY")
+var jwtKey = os.Getenv("JWT_KEY")
 
 func init() {
-	if JwtKey == "" {
-		JwtKey = "hello@Yrd!Kplcloud"
+	if jwtKey == "" {
+		jwtKey = "hello@Yrd!Kplcloud"
 	}
 }
 
@@ -23,5 +23,5 @@ func JwtKeyFunc(token *jwt.Token) (interface{}, error) {
 }
 
 func GetJwtKey() string {
-	return JwtKey
+	return jwtKey
 }
