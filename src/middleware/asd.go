@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	kitjwt "github.com/dgrijalva/jwt-go"
-	"github.com/go-kit/kit/auth/jwt"
 	"github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/kit/log"
 	kithttp "github.com/go-kit/kit/transport/http"
@@ -18,14 +17,14 @@ var ErrorASD = errors.New("权限验证失败！")
 func CheckAuthMiddleware(logger log.Logger) endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (response interface{}, err error) {
-			claims := ctx.Value(jwt.JWTClaimsContextKey)
+			//claims := ctx.Value(jwt.JWTClaimsContextKey)
 
 			//fmt.Println(ctx.Value(kithttp.ContextKeyRequestPath))
 			//fmt.Println(ctx.Value(kithttp.ContextKeyRequestProto))
 
-			fmt.Println("-------------> start... claims")
-			fmt.Println(claims)
-			fmt.Println("------------> claims end")
+			//fmt.Println("-------------> start... claims")
+			//fmt.Println(claims)
+			//fmt.Println("------------> claims end")
 
 			token := ctx.Value(kithttp.ContextKeyRequestAuthorization).(string)
 			if token == "" {

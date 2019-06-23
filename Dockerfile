@@ -11,7 +11,7 @@ FROM alpine:latest
 
 COPY --from=build-env /go/bin/server /go/bin/server
 COPY --from=build-env /go/bin/client /go/bin/client
-COPY ./views /go/bin/
-COPY ./static /go/bin/
+ COPY ./static /go/bin/
+COPY ./app.yaml /etc/kplcloud/
 WORKDIR /go/bin/
-CMD ["/go/bin/server"]
+CMD ["/go/bin/server", "start", "-p", ":8080", "-c", "/etc/kplcloud/app.yaml"]

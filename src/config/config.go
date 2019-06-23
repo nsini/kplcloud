@@ -4,11 +4,13 @@ type Config interface {
 	Get(key string) string
 }
 
+type configConst string
+
 const (
-	ImageFilePath       = "image_file_path"
-	ImageDomain         = "image_domain"
-	SessionTimeout      = "session_timeout"
-	K8sImagePullSecrets = "image_pull_secrets"
+	ImageFilePath              = "image_file_path"
+	ImageDomain                = "image_domain"
+	SessionTimeout             = "session.timeout"
+	DeploymentImagePullSecrets = "image_pull_secrets"
 )
 
 type config struct {
@@ -21,14 +23,10 @@ func NewConfig(path string) Config {
 
 func (c *config) Get(key string) string {
 
-	switch key {
-	case "image_domain":
-		return "http://source.lattecake.com/"
-	case "image_file_path":
-		return "./image/"
-	case "session_timeout":
+	switch configConst(key) {
+	case SessionTimeout:
 		return "3600"
-	case "image_pull_secrets":
+	case DeploymentImagePullSecrets:
 		return "regcred"
 	}
 

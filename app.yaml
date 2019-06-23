@@ -1,0 +1,5 @@
+app.name: kplcloud
+http.port: :8080
+session.timeout: 3600
+
+deployment.image-pull-secrets: hello

@@ -31,13 +31,10 @@ func MakeHandler(svc Service, logger kitlog.Logger) http.Handler {
 		kithttp.ServerBefore(kitjwt.HTTPToContext()),
 	}
 
-	//eps := NamespaceEndpoints{
-	//	GetEndpoint:  makeDetailEndpoint(svc),
-	//	PostEndpoint: makePostEndpoint(svc),
-	//}
 	epsMap := map[string]endpoint.Endpoint{
-		"get":  makeDetailEndpoint(svc),
+		"get":  makeGetEndpoint(svc),
 		"post": makePostEndpoint(svc),
+		"sync": makeSyncEndpoint(svc),
 	}
 
 	for key, val := range epsMap {
@@ -59,9 +56,17 @@ func MakeHandler(svc Service, logger kitlog.Logger) http.Handler {
 		opts...,
 	)
 
+	sync := kithttp.NewServer(
+		epsMap["sync"],
+		decodeGetRequest,
+		encodeResponse,
+		opts...,
+	)
+
 	r := mux.NewRouter()
 	r.Handle("/namespace/{name}", get).Methods("GET")
 	r.Handle("/namespace/", create).Methods("POST")
+	r.Handle("/namespace/sync/all", sync).Methods("GET")
 
 	//r.Handle("/namespace/{name}", ns).Methods("DELETE")
 	//r.Handle("/namespace/{name}", put).Methods("PUT")

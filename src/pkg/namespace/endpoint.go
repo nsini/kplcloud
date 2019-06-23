@@ -17,11 +17,11 @@ type nsResponse struct {
 	Err  error                 `json:"error,omitempty"`
 }
 
-func makeDetailEndpoint(s Service) endpoint.Endpoint {
+func makeGetEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(nsRequest)
 		var err error
-		if rs, err := s.Detail(ctx, req.Name); err == nil {
+		if rs, err := s.Get(ctx, req.Name); err == nil {
 			return nsResponse{0, rs, nil}, nil
 		}
 		return nsResponse{Code: -1, Err: err}, err
@@ -33,6 +33,16 @@ func makePostEndpoint(s Service) endpoint.Endpoint {
 		req := request.(nsRequest)
 		var err error
 		if err := s.Post(ctx, req.Name, req.DisplayName); err == nil {
+			return nsResponse{0, nil, nil}, nil
+		}
+		return nsResponse{Code: -1, Err: err}, err
+	}
+}
+
+func makeSyncEndpoint(s Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		var err error
+		if err := s.Sync(ctx); err == nil {
 			return nsResponse{0, nil, nil}, nil
 		}
 		return nsResponse{Code: -1, Err: err}, err
