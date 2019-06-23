@@ -39,6 +39,17 @@ func makePostEndpoint(s Service) endpoint.Endpoint {
 	}
 }
 
+func makeUpdateEndpoint(s Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(nsRequest)
+		var err error
+		if err := s.Update(ctx, req.Name, req.DisplayName); err == nil {
+			return nsResponse{0, nil, nil}, nil
+		}
+		return nsResponse{Code: -1, Err: err}, err
+	}
+}
+
 func makeSyncEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		var err error

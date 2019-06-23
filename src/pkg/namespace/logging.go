@@ -41,6 +41,19 @@ func (s *loggingService) Post(ctx context.Context, name, displayName string) (er
 	return s.Service.Post(ctx, name, displayName)
 }
 
+func (s *loggingService) Update(ctx context.Context, name, displayName string) (err error) {
+	defer func(begin time.Time) {
+		_ = s.logger.Log(
+			"method", "update",
+			"name", name,
+			"displayName", displayName,
+			"took", time.Since(begin),
+			"err", err,
+		)
+	}(time.Now())
+	return s.Service.Update(ctx, name, displayName)
+}
+
 func (s *loggingService) Sync(ctx context.Context) (err error) {
 	defer func(begin time.Time) {
 		_ = s.logger.Log(

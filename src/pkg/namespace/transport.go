@@ -32,9 +32,10 @@ func MakeHandler(svc Service, logger kitlog.Logger) http.Handler {
 	}
 
 	epsMap := map[string]endpoint.Endpoint{
-		"get":  makeGetEndpoint(svc),
-		"post": makePostEndpoint(svc),
-		"sync": makeSyncEndpoint(svc),
+		"get":    makeGetEndpoint(svc),
+		"post":   makePostEndpoint(svc),
+		"sync":   makeSyncEndpoint(svc),
+		"update": makeUpdateEndpoint(svc),
 	}
 
 	for key, val := range epsMap {
@@ -63,13 +64,20 @@ func MakeHandler(svc Service, logger kitlog.Logger) http.Handler {
 		opts...,
 	)
 
+	update := kithttp.NewServer(
+		epsMap["update"],
+		decodeGetRequest,
+		encodeResponse,
+		opts...,
+	)
+
 	r := mux.NewRouter()
 	r.Handle("/namespace/{name}", get).Methods("GET")
+	r.Handle("/namespace/{name}", update).Methods("PUT")
 	r.Handle("/namespace/", create).Methods("POST")
 	r.Handle("/namespace/sync/all", sync).Methods("GET")
 
 	//r.Handle("/namespace/{name}", ns).Methods("DELETE")
-	//r.Handle("/namespace/{name}", put).Methods("PUT")
 
 	return r
 }
